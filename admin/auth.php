@@ -6,6 +6,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
+    if (!($pdo instanceof PDO)) {
+        header("Location: index.php?error=Database unavailable");
+        exit;
+    }
+
     $stmt = $pdo->prepare("SELECT * FROM users WHERE username = ?");
     $stmt->execute([$username]);
     $user = $stmt->fetch();

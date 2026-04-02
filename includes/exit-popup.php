@@ -9,14 +9,16 @@ $popup = [
     'is_active' => '1'
 ];
 
-try {
-    $stmt = $pdo->prepare("SELECT content_key, content_value FROM site_content WHERE section_name = 'popup'");
-    $stmt->execute();
-    $results = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
-    foreach ($popup as $key => $val) {
-        if (isset($results[$key])) $popup[$key] = $results[$key];
-    }
-} catch (Exception $e) {}
+if ($pdo instanceof PDO) {
+    try {
+        $stmt = $pdo->prepare("SELECT content_key, content_value FROM site_content WHERE section_name = 'popup'");
+        $stmt->execute();
+        $results = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
+        foreach ($popup as $key => $val) {
+            if (isset($results[$key])) $popup[$key] = $results[$key];
+        }
+    } catch (Throwable $e) {}
+}
 
 // If disabled, don't show anything
 if ($popup['is_active'] != '1') return;

@@ -5,15 +5,17 @@ $contact = [
     'phone' => '(555) 123-4567',
     'address' => '123 Hemp Street<br>Denver, CO 80202'
 ];
-try {
-    $stmt = $pdo->prepare("SELECT content_key, content_value FROM site_content WHERE section_name = 'contact'");
-    $stmt->execute();
-    $results = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
-    foreach ($contact as $key => $val) {
-        if (isset($results[$key]))
-            $contact[$key] = ($key == 'address') ? nl2br($results[$key]) : $results[$key];
+if ($pdo instanceof PDO) {
+    try {
+        $stmt = $pdo->prepare("SELECT content_key, content_value FROM site_content WHERE section_name = 'contact'");
+        $stmt->execute();
+        $results = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
+        foreach ($contact as $key => $val) {
+            if (isset($results[$key]))
+                $contact[$key] = ($key == 'address') ? nl2br($results[$key]) : $results[$key];
+        }
+    } catch (Throwable $e) {
     }
-} catch (Exception $e) {
 }
 ?>
 <footer class="bg-[#1A3C34] text-white pt-16 pb-8">

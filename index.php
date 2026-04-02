@@ -13,7 +13,7 @@ include 'includes/navbar.php';
 <!-- Why Us Section -->
 <?php include 'includes/why-us.php'; ?>
 
-<!-- Services Sections -->
+<!-- Services Section -->
 <?php include 'includes/services.php'; ?>
 
 

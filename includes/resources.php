@@ -1,10 +1,14 @@
 <?php
 require_once __DIR__ . '/../config/db.php';
-try {
-    $stmt = $pdo->query("SELECT * FROM resources ORDER BY created_at DESC");
-    $resources = $stmt->fetchAll();
-} catch (Exception $e) {
-    $resources = [];
+$resources = [];
+
+if ($pdo instanceof PDO) {
+    try {
+        $stmt = $pdo->query("SELECT * FROM resources ORDER BY created_at DESC");
+        $resources = $stmt->fetchAll();
+    } catch (Throwable $e) {
+        $resources = [];
+    }
 }
 
 // Fallback if empty

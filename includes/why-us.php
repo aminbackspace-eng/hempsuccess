@@ -3,13 +3,15 @@ require_once __DIR__ . '/../config/db.php';
 $about_title = 'Why Hemp SEO is Different';
 $about_subtitle = 'Hemp, CBD, vape, and cannabis SEO is <strong>COMPLETELY different</strong> from normal industries. Here\'s why:';
 
-try {
-    $stmt = $pdo->prepare("SELECT content_key, content_value FROM site_content WHERE section_name = 'about'");
-    $stmt->execute();
-    $results = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
-    if (isset($results['title'])) $about_title = $results['title'];
-    if (isset($results['subtitle'])) $about_subtitle = $results['subtitle'];
-} catch (Exception $e) {}
+if ($pdo instanceof PDO) {
+    try {
+        $stmt = $pdo->prepare("SELECT content_key, content_value FROM site_content WHERE section_name = 'about'");
+        $stmt->execute();
+        $results = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
+        if (isset($results['title'])) $about_title = $results['title'];
+        if (isset($results['subtitle'])) $about_subtitle = $results['subtitle'];
+    } catch (Throwable $e) {}
+}
 ?>
 <section id="about" class="py-20 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

@@ -11,6 +11,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $traffic = $_POST['traffic'] ?? '';
     $challenge = $_POST['challenge'] ?? '';
 
+    if (!($pdo instanceof PDO)) {
+        header("Location: services.php?status=error&message=" . urlencode("Database temporarily unavailable") . "#audit");
+        exit;
+    }
+
     try {
         $stmt = $pdo->prepare("INSERT INTO leads (full_name, email, phone, website_url, business_type, traffic, challenge) VALUES (?, ?, ?, ?, ?, ?, ?)");
         $stmt->execute([$full_name, $email, $phone, $website_url, $business_type, $traffic, $challenge]);
